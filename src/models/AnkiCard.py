@@ -17,7 +17,6 @@ class AnkiCard():
         self.audio = audio
     
     async def save(self, session):
-        print("Saving card..")
         body = {
                 "action": "addNote",
                 "version": 6,

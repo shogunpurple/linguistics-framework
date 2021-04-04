@@ -23,13 +23,19 @@ async def save_vocabulary(word):
         word_object = Vocab.Vocab(word)
         try:
             await word_object.lookup(session)
-        except Exception:
-            err = f"Error looking up word: {word}"
+        except Exception as e:
+            err = f"Error looking up word: {word}. {str(e)}"
             raise Exception(err) 
+        
+        back = f"""
+            <b>{word_object.spanish} ({word_object.word_type}) - </b> {word_object.english} <br /> <br />
+            
+            {'<br />'.join([f"{example['textEn']} <br /> <b>{example['textEs']}</b>" for example in word_object.examples])}
+        """
 
         anki_card = AnkiCard.AnkiCard(
-            front=f"{word_object.spanish}",
-            back=f"<b>{word_object.english} </b> " + "<br /> <br />" + "<br />".join(word_object.examples),
+            front=word_object.spanish,
+            back=back,
             audio={ 'url': word_object.audio, 'name': word_object.english },
             deck="Spanish Vocabulary"
         )

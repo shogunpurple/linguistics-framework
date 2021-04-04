@@ -32,7 +32,7 @@ class Verb:
 
             props = verb_dict["resultCardHeaderProps"]["headwordAndQuickdefsProps"]
             if props is None:
-                raise Exception
+                raise Exception("Verb does not contain relevant lookup metadata.")
             
             self.audio = self.upload_audio(props)
             self.english = props["quickdef1"]["textToPronounce"]

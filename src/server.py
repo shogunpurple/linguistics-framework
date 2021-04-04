@@ -20,11 +20,12 @@ def save_vocab():
         body = request.get_json()
         asyncio.set_event_loop(asyncio.new_event_loop())
         loop = asyncio.get_event_loop()
-        result = loop.run_until_complete(api.save_vocab(body["word"]))
+        result = loop.run_until_complete(api.save_vocabulary(body["word"]))
         loop.close()
         return jsonify(result)
     except Exception as e:
-        return jsonify({ "error": e.message })
+        app.logger.error(e)
+        return jsonify({ "error": str(e) })
 
 @app.route('/api/verb', methods=["POST"])
 def save_verb():
@@ -41,9 +42,10 @@ def save_verb():
         loop = asyncio.get_event_loop()
         result = loop.run_until_complete(api.save_verb(body["verb"], body["tense"]))
         loop.close()
-        return jsonify(result)
+        return jsonify(result), 200
     except Exception as e:
-        return jsonify({ "error": e })
+        app.logger.error(e)
+        return jsonify({ "error": str(e) })
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0")
