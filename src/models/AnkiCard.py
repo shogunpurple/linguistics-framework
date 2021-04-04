@@ -1,5 +1,6 @@
 import requests
 import aiohttp
+import enum
 
 ANKI_CONNECT_URL = "http://192.168.1.251:8765/"
 

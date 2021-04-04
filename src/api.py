@@ -45,11 +45,4 @@ def read_vocabulary_list():
     vocab_file = open("words/vocabulary.txt")
     words = [Vocab.Vocab(word) for word in vocab_file]
     for word in words:
-        pass
-        # anki_card = AnkiCard.AnkiCard(
-        #     front=f"{word.spanish}",
-        #     back=f"<b>{word.spanish} - {word.english} </b> " + "<br /> <br />" + "<br />".join(word.conjugation),
-        #     audio={ 'url': word.audio, 'name': word.english },
-        #     deck="Spanish Verbs"
-        # )
-        # anki_card.save()
+        save_vocabulary(word)
