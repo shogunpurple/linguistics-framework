@@ -14,7 +14,7 @@
   let flash = null;
   let loading = false;
 
-  $: buttonDisabled = !word || (selected === Types.Verb && verbTense === "")
+  $: buttonDisabled = !word || (selected === Types.Verb && verbTense === "");
 
   function selectWordType(type) {
     selected = type;
@@ -27,7 +27,7 @@
   async function save() {
     try {
       loading = true;
-      const response = await fetch(`${DEV_URL}/${selected}`, {
+      const response = await fetch(`/api/${selected}`, {
         method: "POST",
         body: JSON.stringify({
           word,
@@ -35,7 +35,7 @@
         }),
         headers: {
           "Content-Type": "application/json",
-          "Accept": "application/json"
+          Accept: "application/json"
         }
       });
       const json = await response.json();
@@ -62,11 +62,14 @@
 {#if flash}
   <div
     transition:fade
-    class:bg-red-400={flash.type === MessageTypes.Error}
-    class:bg-green-300={flash.type === MessageTypes.Success}
-    class="w-full absolute top-0 rounded-sm w-48 m-auto p-3 text-white font-medium">
+    class={`w-full absolute top-0 rounded-sm w-48 m-auto p-3 text-white
+    font-medium ${flash.type === MessageTypes.Error ? 'bg-red-400' : 'bg-green-300'}`}>
     {flash.message}
-    <span class="absolute top-3 right-5 font-semibold cursor-pointer" on:click={() => flash = null}>X</span>
+    <span
+      class="absolute top-3 right-5 font-semibold cursor-pointer"
+      on:click={() => (flash = null)}>
+      X
+    </span>
 
     {#if flash.type === MessageTypes.Success}
       {@html flash.preview}
@@ -96,22 +99,22 @@
     {#each Object.values(Types) as wordType}
       <button
         on:click={() => selectWordType(wordType)}
-        class:bg-purple-500={selected === wordType}
-        class="transition duration-500 bg-purple-300 hover:bg-purple-500
-        text-white font-medium font-sm py-2 px-4 rounded-md capitalize">
+        class={`transition duration-500 bg-purple-300 hover:bg-purple-500 text-white font-medium font-sm py-2 px-4 rounded-md capitalize ${selected === wordType ? 'bg-purple-500' : ''}`}>
         {wordType}
       </button>
     {/each}
   </div>
   {#if selected === Types.Verb}
-    <div class="flex flex-col md:space-x-2 lg:space-x-2 md:flex-row lg:flex-row w-full my-3" transition:slide>
+    <div
+      class="flex flex-col md:space-x-2 lg:space-x-2 md:flex-row lg:flex-row
+      w-full my-3"
+      transition:slide>
       {#each Object.keys(Tenses) as tense}
         <button
           on:click={() => selectVerbTense(tense)}
-          class:bg-purple-400={verbTense === Tenses[tense]}
-          class:text-white={verbTense === Tenses[tense]}
-          class="transition duration-500 hover:bg-purple-400 text-grey
-          font-medium font-sm py-2 px-4 rounded-full text-xs mt-5 md:mt-0 lg:mt-0">
+          class={`transition duration-500 hover:bg-purple-400 text-grey
+          font-medium font-sm py-2 px-4 rounded-full text-xs mt-5 md:mt-0
+          lg:mt-0 ${verbTense === Tenses[tense] ? 'bg-purple-400 text-white' : ''}`}>
           {tense}
         </button>
       {/each}
@@ -121,8 +124,8 @@
     on:click={save}
     disabled={!!buttonDisabled}
     class="transition duration-500 py-2 px-4 w-full font-semibold rounded-full
-    shadow-sm text-white bg-purple-500 hover:bg-purple-700 mt-5 h-12 disabled:opacity-50"
-    >
-    {loading ? "Saving..." : "Save"}
+    shadow-sm text-white bg-purple-500 hover:bg-purple-700 mt-5 h-12
+    disabled:opacity-50">
+    {loading ? 'Saving...' : 'Save'}
   </button>
 </form>
