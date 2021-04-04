@@ -8,7 +8,7 @@ WORKDIR /app
 
 COPY poetry.lock pyproject.toml /app/
 # copy frontend to static dir
-COPY ui/public/build/* /app/static/
+COPY ui/public/* /app/static/
 
 RUN poetry config virtualenvs.create false
 RUN poetry install --no-interaction
