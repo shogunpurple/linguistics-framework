@@ -1,5 +1,11 @@
 export const Types = {
   Vocabulary: "vocabulary",
   Verb: "verb",
-  Phrase: "phrase",
+}
+
+export const Tenses = {
+  Present: "presentIndicative",
+  Preterite: "preteritIndicative",
+  Imperfect: "imperfectIndicative",
+  Subjunctive: "presentSubjunctive",
 }

@@ -11,6 +11,7 @@ boto3 = "^1.17.33"
 beautifulsoup4 = "^4.9.3"
 Flask = "^1.1.2"
 aiohttp = "^3.7.4"
+Flask-Cors = "^3.0.10"
 
 [tool.poetry.dev-dependencies]
 
