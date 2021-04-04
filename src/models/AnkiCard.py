@@ -3,6 +3,11 @@ import aiohttp
 
 ANKI_CONNECT_URL = "http://192.168.1.251:8765/"
 
+class Decks(enum.Enum):
+    VERBS = "Spanish Verbs"
+    VOCAB = "Spanish Vocabulary"
+    PHRASES = "Spanish Phrases"
+
 class AnkiCard():
     def __init__(self, back, front, audio, deck):
         self.deck = deck

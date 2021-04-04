@@ -19,7 +19,6 @@ class Verb:
         print("Word is " + spanish)
         self.spanish = spanish
         self.tense = tense
-        # self.lookup()
     
     async def lookup(self, session):
         url = f"{SPANISHDICT_URL}/{self.spanish}"
@@ -31,8 +30,6 @@ class Verb:
             
             verb_dict = json.loads(verb_data)
 
-            # present participle - eating
-            # past participle - ate
             props = verb_dict["resultCardHeaderProps"]["headwordAndQuickdefsProps"]
             if props is None:
                 raise Exception
@@ -40,7 +37,6 @@ class Verb:
             self.audio = self.upload_audio(props)
             self.english = props["quickdef1"]["textToPronounce"]
             self.conjugation = [f"{form['pronoun']} {form['word']}" for form in verb_dict["verb"]["paradigms"][self.tense]] 
-            # self.irregular = verb_dict["verb"]["isIrregular"]
             self.gerund = verb_dict["verb"]["gerund"]["word"]
 
     def upload_audio(self, props):

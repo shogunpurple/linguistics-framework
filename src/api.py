@@ -4,12 +4,34 @@ from models import Verb, AnkiCard, Vocab
 async def save_verb(verb, tense):
     async with aiohttp.ClientSession() as session:
         verb_object = Verb.Verb(verb, tense=tense)
-        await verb.lookup(session)
+        try:
+            await verb_object.lookup(session)
+        except Exception:
+            err = f"Error looking up verb: {verb}"
+            raise Exception(err) 
+
         anki_card = AnkiCard.AnkiCard(
-            front=f"{verb.spanish} ({verb.tense})",
-            back=f"<b>{verb.spanish} - to {verb.english}</b>" + "<br /> <br />" + "<br />".join(verb.conjugation),
-            audio={ 'url': verb.audio, 'name': verb.english },
+            front=f"{verb_object.spanish} ({verb_object.tense})",
+            back=f"<b>{verb_object.spanish} - to {verb_object.english}</b>" + "<br /> <br />" + "<br />".join(verb_object.conjugation),
+            audio={ 'url': verb_object.audio, 'name': verb_object.english },
             deck="Spanish Verbs"
+        )
+        return await anki_card.save(session)
+
+async def save_vocabulary(word):
+    async with aiohttp.ClientSession() as session:
+        word_object = Vocab.Vocab(word)
+        try:
+            await word_object.lookup(session)
+        except Exception:
+            err = f"Error looking up word: {word}"
+            raise Exception(err) 
+
+        anki_card = AnkiCard.AnkiCard(
+            front=f"{word_object.spanish}",
+            back=f"<b>{word_object.english} </b> " + "<br /> <br />" + "<br />".join(word_object.examples),
+            audio={ 'url': word_object.audio, 'name': word_object.english },
+            deck="Spanish Vocabulary"
         )
         return await anki_card.save(session)
 
@@ -17,16 +39,9 @@ def read_verb_list(tense):
     verb_file = open("words/verbs.txt")
     verbs = [Verb.Verb(verb, tense=tense) for verb in verb_file]
     for verb in verbs:
-        pass
-        # anki_card = AnkiCard.AnkiCard(
-        #     front=f"to {verb.english} ({verb.tense})",
-        #     back=f"<b>{verb.spanish}</b>" + "<br /> <br />" + "<br />".join(verb.conjugation),
-        #     audio={ 'url': verb.audio, 'name': verb.english },
-        #     deck="Spanish Verbs"
-        # )
-        # anki_card.save()
+        save_verb(verb, tense)
 
-def read_vocabulary():
+def read_vocabulary_list():
     vocab_file = open("words/vocabulary.txt")
     words = [Vocab.Vocab(word) for word in vocab_file]
     for word in words:
@@ -38,13 +53,3 @@ def read_vocabulary():
         #     deck="Spanish Verbs"
         # )
         # anki_card.save()
-
-# def save_verb(spanish, tense):
-#     verb = Verb.Verb(spanish, tense=tense)
-#     anki_card = AnkiCard.AnkiCard(
-#         front=f"to {verb.english} ({verb.tense})",
-#         back=f"<b>{verb.spanish}</b>" + "<br /> <br />" + "<br />".join(verb.conjugation),
-#         audio={ 'url': verb.audio, 'name': verb.english },
-#         deck="Spanish Verbs"
-#     )
-#     anki_card.save()
