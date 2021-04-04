@@ -5,7 +5,13 @@ module.exports = {
     content: [
       "./src/**/*.svelte",
     ],
-    enabled: production // disable purge in dev
+    enabled: production, // disable purge in dev
+    options: {
+      defaultExtractor: content => [
+        ...(content.match(/[^<>"'`\s]*[^<>"'`\s:]/g) || []),
+        ...(content.match(/(?<=class:)[^=>\/\s]*/g) || []),
+      ],
+    }
   },
   darkMode: false, // or 'media' or 'class'
   theme: {

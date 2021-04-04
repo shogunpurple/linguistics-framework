@@ -2,7 +2,7 @@
   import { Types, Tenses } from "./constants";
   import { fade, slide } from "svelte/transition";
 
-  const API_URL = "http://localhost:3001/api";
+  const DEV_URL = "http://localhost:3001/api";
   const MessageTypes = {
     Error: "error",
     Success: "success"
@@ -27,7 +27,7 @@
   async function save() {
     try {
       loading = true;
-      const response = await fetch(`${API_URL}/${selected}`, {
+      const response = await fetch(`${DEV_URL}/${selected}`, {
         method: "POST",
         body: JSON.stringify({
           word,
@@ -66,6 +66,7 @@
     class:bg-green-300={flash.type === MessageTypes.Success}
     class="w-full absolute top-0 rounded-sm w-48 m-auto p-3 text-white font-medium">
     {flash.message}
+    <span class="absolute top-3 right-5 font-semibold cursor-pointer" on:click={() => flash = null}>X</span>
 
     {#if flash.type === MessageTypes.Success}
       {@html flash.preview}
