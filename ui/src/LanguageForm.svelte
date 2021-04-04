@@ -2,13 +2,13 @@
   import { Types, Tenses } from "./constants";
   import { fade, slide } from "svelte/transition";
 
-  const API_URL = "http://localhost:6666/api";
+  const API_URL = "http://localhost:3001/api";
   const MessageTypes = {
     Error: "error",
     Success: "success"
   };
 
-  let selected = Types.Verb;
+  let selected = Types.Vocabulary;
   let verbTense = "";
   let word = "";
   let flash = null;
@@ -21,7 +21,7 @@
   }
 
   function selectVerbTense(tense) {
-    verbTense = tense;
+    verbTense = Tenses[tense];
   }
 
   async function save() {
@@ -45,7 +45,8 @@
       // word successfully saved
       flash = {
         type: MessageTypes.Success,
-        message: json.message
+        message: `Added ${json.front} to ${json.deck}`,
+        preview: json.back
       };
     } catch (err) {
       flash = {
@@ -63,8 +64,12 @@
     transition:fade
     class:bg-red-400={flash.type === MessageTypes.Error}
     class:bg-green-300={flash.type === MessageTypes.Success}
-    class="w-full absolute top-0 rounded-sm w-48 m-auto p-3 text-white">
+    class="w-full absolute top-0 rounded-sm w-48 m-auto p-3 text-white font-medium">
     {flash.message}
+
+    {#if flash.type === MessageTypes.Success}
+      {@html flash.preview}
+    {/if}
   </div>
 {/if}
 <form
@@ -73,7 +78,7 @@
   on:submit|preventDefault>
   <header class="flex flex-auto my-6 justify-between">
     <h1 class="text-xl font-semibold mr-5">🌐 Linguistics Framework</h1>
-    <div class="text-xl font-semibold text-gray-500">Spanish 🇪🇸 🇲🇽 🇻🇪</div>
+    <div class="text-xl font-semibold text-gray-500">Español 🇪🇸 🇲🇽 🇻🇪</div>
   </header>
   <textarea
     class="focus:border-light-purple-500 focus:ring-1
@@ -98,12 +103,12 @@
     {/each}
   </div>
   {#if selected === Types.Verb}
-    <div class="space-x-2 flex flex-col md:flex-row lg:flex-row w-full my-3" transition:slide>
+    <div class="flex flex-col md:space-x-2 lg:space-x-2 md:flex-row lg:flex-row w-full my-3" transition:slide>
       {#each Object.keys(Tenses) as tense}
         <button
           on:click={() => selectVerbTense(tense)}
-          class:bg-purple-400={verbTense === tense}
-          class:text-white={verbTense === tense}
+          class:bg-purple-400={verbTense === Tenses[tense]}
+          class:text-white={verbTense === Tenses[tense]}
           class="transition duration-500 hover:bg-purple-400 text-grey
           font-medium font-sm py-2 px-4 rounded-full text-xs mt-5 md:mt-0 lg:mt-0">
           {tense}
@@ -117,6 +122,6 @@
     class="transition duration-500 py-2 px-4 w-full font-semibold rounded-full
     shadow-sm text-white bg-purple-500 hover:bg-purple-700 mt-5 h-12 disabled:opacity-50"
     >
-    Save
+    {loading ? "Saving..." : "Save"}
   </button>
 </form>

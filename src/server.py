@@ -2,10 +2,11 @@ from flask import Flask, request, jsonify, render_template, abort
 from models import Verb
 import asyncio
 import api
-from flask_cors import CORS 
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
-CORS(app)
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+
 
 @app.route("/", methods=["GET"])
 def serve():
@@ -17,6 +18,7 @@ def save_phrase():
     return 'Hello World!'
 
 @app.route('/api/vocabulary', methods=["POST"])
+@cross_origin()
 def save_vocab():
     try:
         body = request.get_json()
@@ -27,7 +29,7 @@ def save_vocab():
         return jsonify(result)
     except Exception as e:
         app.logger.error(e)
-        return jsonify({ "error": str(e) })
+        return jsonify({ "error": str(e) }), 500
 
 @app.route('/api/verb', methods=["POST"])
 def save_verb():
@@ -44,10 +46,10 @@ def save_verb():
         loop = asyncio.get_event_loop()
         result = loop.run_until_complete(api.save_verb(body["word"], body["tense"]))
         loop.close()
-        return jsonify(result), 200
+        return jsonify(result)
     except Exception as e:
         app.logger.error(e)
-        return jsonify({ "error": str(e) })
+        return jsonify({ "error": str(e) }), 500
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=6666)
+    app.run(host="0.0.0.0", port=3001, debug=True)

@@ -72,4 +72,10 @@ class AnkiCard():
             json = await response.json(content_type='text/json')
             print(f"Card written to {self.deck} Anki Deck!")
             print(json)
-            return json
+            if json["error"] is not None:
+                raise Exception(json["error"])
+            return {
+                "front": self.front,
+                "back": self.back,
+                "deck": self.deck
+            }
