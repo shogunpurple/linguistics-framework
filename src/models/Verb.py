@@ -5,7 +5,6 @@ import enum
 import requests
 import aiohttp
 
-ANKI_CONNECT_URL = "http://192.168.1.251:8765/"
 SPANISHDICT_URL = "https://www.spanishdict.com/conjugate"
 
 class Tense(enum.Enum):
@@ -40,5 +39,4 @@ class Verb:
             self.gerund = verb_dict["verb"]["gerund"]["word"]
 
     def upload_audio(self, props):
-        # TODO: fetch the audio pronounciation using polly
         return props["headword"]["audioUrl"]
