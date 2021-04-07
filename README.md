@@ -12,7 +12,7 @@ https://user-images.githubusercontent.com/11256663/113925488-f8f2d900-97e2-11eb-
 Once words are saved, you can review them in your Anki decks as normal!
 
 ## Stack
-LFE is a python flask application with a svelte frontend. The application makes HTTP requests to SpanishDict.com to retrieve Spanish translations, verb conjugations and example phrases, writing them to your Anki Deck so you can review them at a later date.
+LFE is a python flask application with a svelte frontend with Tailwind CSS. The application makes HTTP requests to SpanishDict.com to retrieve Spanish translations, verb conjugations and example phrases, writing them to your Anki Deck so you can review them at a later date.
 
 ## Setup
 To start using LFE, you need to have some dependencies in installed on your machine.
