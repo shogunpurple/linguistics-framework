@@ -32,5 +32,4 @@ class Vocab:
             self.examples = examples
 
     def upload_audio(self, props):
-        # TODO: fetch the audio pronounciation using polly
         return props["headword"]["audioUrl"]
