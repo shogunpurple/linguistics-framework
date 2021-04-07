@@ -2,7 +2,6 @@ import aiohttp
 import re
 import json
 
-ANKI_CONNECT_URL = "http://192.168.1.251:8765/"
 SPANISHDICT_URL = "https://www.spanishdict.com/translate"
 INGLES_WORD_FETCH_URL = "https://playground.ingles.com/dictionary/inflections/es?wordId="
 
