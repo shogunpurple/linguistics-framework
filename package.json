@@ -1,0 +1,13 @@
+{
+  "name": "linguistics-framework",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:shogunpurple/linguistics-framework.git",
+  "author": "martinmckeaveney@gmail.com",
+  "license": "MIT",
+  "dependencies": {
+    "got": "^11.8.2",
+    "koa": "^2.13.1",
+    "koa-router": "^10.0.0"
+  }
+}
