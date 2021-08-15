@@ -11,6 +11,7 @@ class Decks(enum.Enum):
     VOCAB = "Spanish Vocabulary"
     PHRASES = "Spanish Phrases"
 
+
 class AnkiCard():
     def __init__(self, back, front, audio, deck):
         self.deck = deck

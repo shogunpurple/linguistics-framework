@@ -4,7 +4,9 @@ const controller = require("./controller")
 const router = new Router()
 
 router
-  .get("/")
+  .get("/foo", async ctx => { 
+    ctx.body = "WANG"
+  })
   .post("/api/verb", controller.saveVerb)
   .post("/api/vocabulary", controller.saveVocab)
 

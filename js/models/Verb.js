@@ -2,10 +2,11 @@
 const SPANISHDICT_URL = "https://www.spanishdict.com/conjugate"
 
 const Tense = {
-  PRESENT: "presentIndicative"
-  PRETERITE: "preteritIndicative"
-  IMPERFECT: "imperfectIndicative"
-  SUBJUNCTIVE: "presentSubjunctive"
+  PRESENT: "presentIndicative",
+  PRETERITE: "preteritIndicative",
+  IMPERFECT: "imperfectIndicative",
+  SUBJUNCTIVE: "presentSubjunctive",
+  IMPERFECT_SUBJUNCTIVE: "imperfectSubjunctive"
 }
 
 class Verb {
@@ -26,7 +27,6 @@ class Verb {
     }
 
     // TODO: test if this works
-
   }
 }
 
